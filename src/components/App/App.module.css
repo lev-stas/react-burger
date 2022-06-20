@@ -6,3 +6,10 @@
     flex-direction: column;
     background-color: #131316;
 }
+
+.main {
+    display: flex;
+    max-width: 1240px;
+    justify-content: space-between;
+    margin: 0 auto;
+}
