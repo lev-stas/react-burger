@@ -1,15 +1,16 @@
 import styles from './BurgerIngredients.module.css';
 import React from 'react';
 import {
-  Tab,
-  Counter
+  Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientCard from '../IngredientCard/IngredientCard';
+import ingredients from '../../utils/data';
 
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one')
   return(
-    <div className='styles.container'>
+    <section className='styles.container'>
       <h1 className="text text_type_main-large mt-10 mb-5">
         Соберите бургер
       </h1>
@@ -30,22 +31,28 @@ const BurgerIngredients = (props) => {
           </Tab>
         </a>
       </nav>
-      <h2 className='mt-10 mb-6 text text_type_main-medium'>
-        Булки
-      </h2>
-      <div className={styles.cards}>
-        {props.data.filter(ingredient => ingredient.type === 'bun').map(ingredient => (
-          <div>
-            <img src={ingredient.image}></img>
-            <p>{ingredient.price}</p>
-            <p>{ingredient.name}</p>
-          </div>
-        ))
+      <ul className={styles.container}>
+        <li className='mt-10'>
+          <h2 className={`${styles.title} text text_type_main-medium`}>Булки</h2>
+          <ul className={styles.groupList}>
+            {props.data.filter(ingredient => ingredient.type === 'bun').map(ingredient => (<IngredientCard ingredient={ingredient}  key={ingredient._id}/>))}
+        </ul>
+        </li>
+        <li className='mt-10'>
+          <h2 className={`${styles.title} text text_type_main-medium`}>Соусы</h2>
+          <ul className={styles.groupList}>
+            {props.data.filter(ingredient => ingredient.type === 'sauce').map(ingredient => (<IngredientCard ingredient={ingredient}  key={ingredient._id}/>))}
+          </ul>
+        </li>
+        <li className='mt-10'>
+          <h2 className={`${styles.title} text text_type_main-medium`}>Начинки</h2>
+          <ul className={styles.groupList}>
+            {props.data.filter(ingredient => ingredient.type === 'main').map(ingredient => (<IngredientCard ingredient={ingredient}  key={ingredient._id}/>))}
+          </ul>
+        </li>
 
-        }
-      </div>
-
-    </div>
+      </ul>
+      </section>
 
 
   )
