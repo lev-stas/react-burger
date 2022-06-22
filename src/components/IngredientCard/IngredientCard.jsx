@@ -8,6 +8,7 @@ const IngredientCard = (props) => {
 
   return (
       <li className={`${styles.container} mt-6 ml-6 mr-2`}>
+        <Counter count={props.ingredient._v} size='small' />
         <img className='ml-4 mr-4 mb-1' src={props.ingredient.image} alt={props.ingredient.name} />
         <div className={styles.price}>
           <p className={`${styles.priceAmount} text text_type_digits-default`}>{props.ingredient.price}</p>
