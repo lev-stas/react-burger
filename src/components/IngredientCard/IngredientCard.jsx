@@ -3,6 +3,7 @@ import {
   CurrencyIcon,
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types';
 
 const IngredientCard = (props) => {
 
@@ -17,6 +18,14 @@ const IngredientCard = (props) => {
         <p className={`${styles.title} text text_type_main-default mt-1`}>{props.ingredient.name}</p>
       </li>
   )
+}
+
+IngredientCard.propTypes ={
+  ingredient: PropTypes.arrayOf(PropTypes.shape({
+    _v: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired
+  })).isRequired
 }
 
 export default IngredientCard

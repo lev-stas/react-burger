@@ -17,6 +17,10 @@
     ;
 }
 
+.navPannel {
+    display: flex;
+}
+
 .title {
     margin: 0;
 }

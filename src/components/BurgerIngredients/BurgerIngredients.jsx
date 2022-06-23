@@ -4,7 +4,7 @@ import {
   Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from '../IngredientCard/IngredientCard';
-import ingredients from '../../utils/data';
+import PropTypes from 'prop-types';
 
 
 const BurgerIngredients = (props) => {
@@ -14,7 +14,7 @@ const BurgerIngredients = (props) => {
       <h1 className="text text_type_main-large mt-10 mb-5">
         Соберите бургер
       </h1>
-      <nav style={{ display: 'flex' }}>
+      <div className={styles.navPannel}>
         <a href="#">
           <Tab value="one" active={current === 'one'} onClick={setCurrent}>
             Булки
@@ -30,7 +30,7 @@ const BurgerIngredients = (props) => {
             Начинки
           </Tab>
         </a>
-      </nav>
+      </div>
       <ul className={styles.container}>
         <li className='mt-10'>
           <h2 className={`${styles.title} text text_type_main-medium`}>Булки</h2>
@@ -56,6 +56,10 @@ const BurgerIngredients = (props) => {
 
 
   )
+}
+
+BurgerIngredients.propTypes ={
+  data: PropTypes.array.isRequired
 }
 
 export default BurgerIngredients
