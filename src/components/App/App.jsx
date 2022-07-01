@@ -5,6 +5,8 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 export default function App () {
+  
+
     return(
         <div className={pageStyle.page}>
           <AppHeader />

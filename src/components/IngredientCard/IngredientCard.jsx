@@ -1,4 +1,4 @@
-import styles from './IngredinetCard.module.css'
+import styles from './IngredientCard.module.css'
 import {
   CurrencyIcon,
   Counter
@@ -21,11 +21,10 @@ const IngredientCard = (props) => {
 }
 
 IngredientCard.propTypes ={
-  ingredient: PropTypes.arrayOf(PropTypes.shape({
-    _v: PropTypes.number.isRequired,
+  ingredient: PropTypes.shape({
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired
-  })).isRequired
+  }).isRequired
 }
 
 export default IngredientCard
