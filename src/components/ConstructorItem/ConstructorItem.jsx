@@ -14,11 +14,11 @@ const ConstructorItem = (props) => {
   )
 }
 
-ConstructorItem.propTypes = {
-  data: PropTypes.shape({
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired
-  }).isRequired
-}
+// ConstructorItem.propTypes = {
+//   data: PropTypes.shape({
+//     price: PropTypes.number.isRequired,
+//     image: PropTypes.string.isRequired
+//   }).isRequired
+// }
 
 export default ConstructorItem

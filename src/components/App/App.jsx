@@ -1,20 +1,39 @@
+import {
+  useState,
+  useEffect
+} from 'react';
+import { API } from '../../utils/constants';
 import pageStyle from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
-import ingredients  from '../../utils/data';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
+
 export default function App () {
-  
+  const [state, setState] = useState({
+    ingredients:[],
+    isloading: false,
+    hasError: false
+  })
 
-    return(
-        <div className={pageStyle.page}>
-          <AppHeader />
-          <main className={pageStyle.main}>
-            <BurgerIngredients data={ingredients} />
-            <BurgerConstructor data={ingredients} />
+  useEffect(() => {
 
-          </main>
-        </div>
-    )
+    const getData = async () => {
+      setState({...state, isloading: true});
+      const res = await fetch(API)
+      const data = await res.json()
+      setState({...state, ingredients:data.data, isLoading: false})
+    }
+    getData();
+  },[]);
+
+  return(
+      <div className={pageStyle.page}>
+        <AppHeader />
+        <main className={pageStyle.main}>
+          <BurgerIngredients data={state.ingredients} />
+          <BurgerConstructor data={state.ingredients} />
+        </main>
+      </div>
+  )
 }

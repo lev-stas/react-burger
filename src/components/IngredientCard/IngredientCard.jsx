@@ -20,11 +20,11 @@ const IngredientCard = (props) => {
   )
 }
 
-IngredientCard.propTypes ={
-  ingredient: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
-  }).isRequired
-}
+// IngredientCard.propTypes ={
+//   ingredient: PropTypes.shape({
+//     name: PropTypes.string.isRequired,
+//     price: PropTypes.number.isRequired
+//   }).isRequired
+// }
 
 export default IngredientCard
