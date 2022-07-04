@@ -27,16 +27,19 @@ export default function App () {
 
       try {
         const res = await fetch(API)
-      const data = await res.json()
-      setState((prevState) => ({
-        ...prevState,
-        ingredients:data.data,
-        isLoading: false,
-        loadingPopup: false,
-        errorPopup: false
-      }))
+        if (!res.ok){
+          throw new Error(`response status:${res.status}`)
+          }
+        const data = await res.json()
+        setState((prevState) => ({
+          ...prevState,
+          ingredients:data.data,
+          isLoading: false,
+          loadingPopup: false,
+          errorPopup: false
+        }))
       }
-      catch {
+      catch (e){
         setState((prevState) => ({
           ...prevState,
           isLoading: false,
@@ -44,6 +47,7 @@ export default function App () {
           loadingPopup: false,
           errorPopup: true
         }))
+        console.log(e)
       }
     }
     getData();
