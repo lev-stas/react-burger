@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const IngredientCard = (props) => {
   const [isOpened, SetIsOpened] = useState(false)
@@ -21,7 +22,13 @@ const IngredientCard = (props) => {
         <p className={`${styles.title} text text_type_main-default mt-1`}>{props.ingredient.name}</p>
       </li>
       <Modal isOpened={isOpened} onClose={() => SetIsOpened(false)}>
-          Create Order Modal window
+          <IngredientDetails title='Детали ингредиента'
+          img={props.ingredient.image_large}
+          name={props.ingredient.name}
+          calories={props.ingredient.calories}
+          prot={props.ingredient.proteins}
+          fat={props.ingredient.fat}
+          carb={props.ingredient.carbohydrates}/>
         </Modal>
     </>
   )
@@ -30,7 +37,13 @@ const IngredientCard = (props) => {
 IngredientCard.propTypes ={
   ingredient: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.number.isRequired,
+    image_large: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired
   }).isRequired
 }
 
