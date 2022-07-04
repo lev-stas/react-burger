@@ -7,8 +7,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import ConstructorItem from '../ConstructorItem/ConstructorItem'
 import PropTypes from 'prop-types';
+import Modal from '../Modal/Modal';
+import { useState } from 'react';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 const BurgerConstructor = (props) => {
+  const [isOpened, SetIsOpened] = useState(false)
   return (
     <section className={`${styles.container} mt-25 ml-10`}>
       <ul className={`${styles.ingredientList} mr-4 ml-4 mb-10`}>
@@ -27,7 +31,10 @@ const BurgerConstructor = (props) => {
           <p className='text text_type_digits-medium mr-2'>610</p>
           <CurrencyIcon type='primary' />
         </div>
-        <Button type='primary' size='medium'>Оформить заказ</Button>
+        <Button type='primary' size='medium' onClick={() => SetIsOpened(true)}>Оформить заказ</Button>
+        <Modal isOpened={isOpened} onClose={() => SetIsOpened(false)}>
+          <OrderDetails totalSum='034536' id='индентификатор заказа' statusInfo='Ваш заказ начали готовить' waitMessage='Дождитесь готовности на орбитальной станции'/>
+        </Modal>
       </div>
     </section>
   )

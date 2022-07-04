@@ -21,6 +21,10 @@
     display: flex;
 }
 
+.navItem {
+    text-decoration: none;
+}
+
 .title {
     margin: 0;
 }

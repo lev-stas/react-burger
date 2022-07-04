@@ -7,6 +7,7 @@ import pageStyle from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import ingredients from '../../utils/data';
 
 
 export default function App () {
@@ -32,7 +33,7 @@ export default function App () {
         <AppHeader />
         <main className={pageStyle.main}>
           <BurgerIngredients data={state.ingredients} />
-          <BurgerConstructor data={state.ingredients} />
+          <BurgerConstructor data={ingredients} />
         </main>
       </div>
   )

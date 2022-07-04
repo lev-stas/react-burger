@@ -15,17 +15,17 @@ const BurgerIngredients = (props) => {
         Соберите бургер
       </h1>
       <div className={styles.navPannel}>
-        <a href="#">
+        <a className= {styles.navItem} href="#">
           <Tab value="one" active={current === 'one'} onClick={setCurrent}>
             Булки
           </Tab>
         </a>
-        <a href="#">
+        <a className= {styles.navItem} href="#">
           <Tab value="two" active={current === 'two'} onClick={setCurrent}>
           Соусы
           </Tab>
         </a>
-        <a href="#">
+        <a className= {styles.navItem} href="#">
           <Tab value="three" active={current === 'three'} onClick={setCurrent}>
             Начинки
           </Tab>
