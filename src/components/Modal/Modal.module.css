@@ -1,0 +1,19 @@
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    justify-content: center;
+    top: 180px;
+    left: calc((100% - 720px) / 2);
+    max-width: 720px;
+    background-color: #000;
+    border-radius: 60px;
+}
+
+.closeButton {
+    position: absolute;
+    right: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
