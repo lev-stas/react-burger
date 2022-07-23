@@ -9,29 +9,31 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import Modal from '../Modal/Modal';
 import NotificationModal from '../NotificationModal/NotificationModal';
+import {BurgersContext} from "../../services/appContext";
+
 
 
 export default function App () {
-  const [state, setState] = useState({
+  const [availableIngredients, setAvailableIngredients] = useState({
     ingredients:[],
     isLoading: false,
     hasError: false,
     errorPopup: false,
     loadingPopup: false
-  })
+  });
 
   useEffect(() => {
 
     const getData = async () => {
-      setState((prevState) => ({...prevState, isLoading: true, loadingPopup: true}));
+      setAvailableIngredients((prevState) => ({...prevState, isLoading: true, loadingPopup: true}));
 
       try {
-        const res = await fetch(API)
+        const res = await fetch(`${API}ingredients`)
         if (!res.ok){
           throw new Error(`response status:${res.status}`)
           }
         const data = await res.json()
-        setState((prevState) => ({
+        setAvailableIngredients((prevState) => ({
           ...prevState,
           ingredients:data.data,
           isLoading: false,
@@ -40,7 +42,7 @@ export default function App () {
         }))
       }
       catch (e){
-        setState((prevState) => ({
+        setAvailableIngredients((prevState) => ({
           ...prevState,
           isLoading: false,
           hasError: true,
@@ -58,19 +60,21 @@ export default function App () {
         <AppHeader />
         <main className={pageStyle.main}>
         {
-        state.isLoading &&
-        <Modal isOpened={state.loadingPopup} onClose={() => setState({...state, loadingPopup: false})}>
+          availableIngredients.isLoading &&
+        <Modal isOpened={availableIngredients.loadingPopup} onClose={() => setAvailableIngredients({...availableIngredients, loadingPopup: false})}>
           <NotificationModal text='ЗАГРУЗКА...' />
         </Modal>
         }
-        {state.hasError &&
-        <Modal isOpened={state.errorPopup} onClose={() => setState({...state, errorPopup: false})}>
+        {availableIngredients.hasError &&
+        <Modal isOpened={availableIngredients.errorPopup} onClose={() => setAvailableIngredients({...availableIngredients, errorPopup: false})}>
           <NotificationModal text='Ой, что-то пошло не так. Попробуйте позже' />
         </Modal>}
-        { !state.isLoading && !state.hasError && state.ingredients.length &&
+        { !availableIngredients.isLoading && !availableIngredients.hasError && availableIngredients.ingredients.length &&
           (<>
-            <BurgerIngredients data={state.ingredients} />
-            <BurgerConstructor data={state.ingredients} />
+            <BurgersContext.Provider value={availableIngredients}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+            </BurgersContext.Provider>
           </>)
         }
         </main>
