@@ -4,19 +4,57 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useMemo } from "react";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { useDrag } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIngredientAction,
+  delIngredientAction,
+} from "../../services/reducers/selectedIngredientReducer";
 
 const IngredientCard = (props) => {
-  const [isOpened, SetIsOpened] = useState(false);
+  const dispatch = useDispatch();
+  const { ingredient, isOpened } = useSelector(
+    (state) => state.selectedIngredients
+  );
+  const { bun, stuffing } = useSelector(
+    (state) => state.constructorIngredients
+  );
+  const [{ opacity }, dragRef] = useDrag({
+    type: "ingredients",
+    item: props.ingredient,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
+
+  const counter = useMemo(
+    () =>
+      (count = 0) => {
+        for (let { _id } of stuffing) if (_id === props.ingredient._id) count++;
+        if (bun && bun._id === props.ingredient._id) return 2;
+        return count;
+      },
+    [bun, stuffing, props.ingredient._id]
+  );
+
+  const handleClick = (ingredient) => {
+    dispatch(setIngredientAction(props.ingredient));
+  };
+  const handleClose = () => {
+    dispatch(delIngredientAction());
+  };
+
   return (
     <>
       <li
         className={`${styles.container} mt-6 ml-6 mr-2`}
-        onClick={() => SetIsOpened(true)}
+        onClick={() => handleClick(ingredient)}
+        ref={dragRef}
       >
-        <Counter count={props.ingredient._v} size="small" />
+        <Counter count={counter()} size="small" />
         <img
           className="ml-4 mr-4 mb-1"
           src={props.ingredient.image}
@@ -32,15 +70,15 @@ const IngredientCard = (props) => {
           {props.ingredient.name}
         </p>
       </li>
-      <Modal isOpened={isOpened} onClose={() => SetIsOpened(false)}>
+      <Modal isOpened={isOpened} onClose={() => handleClose()}>
         <IngredientDetails
           title="Детали ингредиента"
-          img={props.ingredient.image_large}
-          name={props.ingredient.name}
-          calories={props.ingredient.calories}
-          prot={props.ingredient.proteins}
-          fat={props.ingredient.fat}
-          carb={props.ingredient.carbohydrates}
+          img={ingredient.image_large}
+          name={ingredient.name}
+          calories={ingredient.calories}
+          prot={ingredient.proteins}
+          fat={ingredient.fat}
+          carb={ingredient.carbohydrates}
         />
       </Modal>
     </>
@@ -52,10 +90,6 @@ IngredientCard.propTypes = {
     price: PropTypes.number.isRequired,
     image_large: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
   }).isRequired,
 };
 

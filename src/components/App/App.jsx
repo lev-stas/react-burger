@@ -1,97 +1,64 @@
-import { useState, useEffect } from "react";
-import { API } from "../../utils/constants";
 import pageStyle from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import NotificationModal from "../NotificationModal/NotificationModal";
-import { BurgersContext } from "../../services/appContext";
-import { checkRespose } from "../../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getData } from "../../utils/api";
+import { useEffect } from "react";
+import {
+  closeErrorPopup,
+  closeLoadingPopup,
+} from "../../services/reducers/notificationPopupReducer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function App() {
-  const [availableIngredients, setAvailableIngredients] = useState({
-    ingredients: [],
-    isLoading: false,
-    hasError: false,
-    errorPopup: false,
-    loadingPopup: false,
-  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getData = async () => {
-      setAvailableIngredients((prevState) => ({
-        ...prevState,
-        isLoading: true,
-        loadingPopup: true,
-      }));
+    dispatch(getData());
+  }, [dispatch]);
 
-      try {
-        const res = await fetch(`${API}ingredients`);
-        if (!res.ok) {
-          throw new Error(`response status:${res.status}`);
-        }
-        const data = await checkRespose(res);
-        setAvailableIngredients((prevState) => ({
-          ...prevState,
-          ingredients: data.data,
-          isLoading: false,
-          loadingPopup: false,
-          errorPopup: false,
-        }));
-      } catch (e) {
-        setAvailableIngredients((prevState) => ({
-          ...prevState,
-          isLoading: false,
-          hasError: true,
-          loadingPopup: false,
-          errorPopup: true,
-        }));
-        console.log(e);
-      }
-    };
-    getData();
-  }, []);
+  const availableIngredients = useSelector(
+    (state) => state.availableIngredients
+  );
+  const notificationPopupState = useSelector(
+    (state) => state.notificationPopup
+  );
 
   return (
     <div className={pageStyle.page}>
       <AppHeader />
-      <main className={pageStyle.main}>
-        {availableIngredients.isLoading && (
-          <Modal
-            isOpened={availableIngredients.loadingPopup}
-            onClose={() =>
-              setAvailableIngredients({
-                ...availableIngredients,
-                loadingPopup: false,
-              })
-            }
-          >
-            <NotificationModal text="ЗАГРУЗКА..." />
-          </Modal>
-        )}
-        {availableIngredients.hasError && (
-          <Modal
-            isOpened={availableIngredients.errorPopup}
-            onClose={() =>
-              setAvailableIngredients({
-                ...availableIngredients,
-                errorPopup: false,
-              })
-            }
-          >
-            <NotificationModal text="Ой, что-то пошло не так. Попробуйте позже" />
-          </Modal>
-        )}
-        {!availableIngredients.isLoading &&
-          !availableIngredients.hasError &&
-          availableIngredients.ingredients.length && (
-            <BurgersContext.Provider value={availableIngredients}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </BurgersContext.Provider>
+      <DndProvider backend={HTML5Backend}>
+        <main className={pageStyle.main}>
+          {availableIngredients.isLoading && (
+            <Modal
+              isOpened={notificationPopupState.loadingPopup}
+              onClose={() => dispatch(closeLoadingPopup())}
+            >
+              <NotificationModal text="ЗАГРУЗКА..." />
+            </Modal>
           )}
-      </main>
+          {availableIngredients.hasError && (
+            <Modal
+              isOpened={notificationPopupState.errorPopup}
+              onClose={() => dispatch(closeErrorPopup())}
+            >
+              <NotificationModal text="Ой, что-то пошло не так. Попробуйте позже" />
+            </Modal>
+          )}
+          {!availableIngredients.isLoading &&
+            !availableIngredients.hasError &&
+            availableIngredients.ingredients.length && (
+              <>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </>
+            )}
+        </main>
+      </DndProvider>
     </div>
   );
 }
