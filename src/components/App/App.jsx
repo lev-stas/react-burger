@@ -5,7 +5,7 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import NotificationModal from "../NotificationModal/NotificationModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getData } from "../../utils/api";
+import { getData } from "../../services/actions/api";
 import { useEffect } from "react";
 import {
   closeErrorPopup,

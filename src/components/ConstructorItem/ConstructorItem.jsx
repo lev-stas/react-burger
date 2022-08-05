@@ -11,6 +11,7 @@ import {
 } from "../../services/reducers/constructorIngredientsReducer";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import { ingredientType } from "../../utils/types";
 
 const ConstructorItem = ({ data, index }) => {
   const { name, price, image, id } = data;
@@ -62,11 +63,7 @@ const ConstructorItem = ({ data, index }) => {
 };
 
 ConstructorItem.propTypes = {
-  data: PropTypes.shape({
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  data: ingredientType.isRequired,
   index: PropTypes.number.isRequired,
 };
 

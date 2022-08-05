@@ -9,12 +9,12 @@ import Modal from "../Modal/Modal";
 import { useState, useMemo } from "react";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
-import makeOrder from "../../utils/api";
-import { orderDetailsAction } from "../../services/reducers/orderDetailsReducer";
+import { makeOrder } from "../../services/actions/api";
 import { useDrop } from "react-dnd";
 import {
   addBurgerStuffingAction,
   addBurgerBunAction,
+  cleanUpConstructorAction,
 } from "../../services/reducers/constructorIngredientsReducer";
 
 const BurgerConstructor = () => {
@@ -55,6 +55,12 @@ const BurgerConstructor = () => {
     }),
   });
 
+  const cleanUpConstructor = () => {
+    if (orderId.success) {
+      dispatch(cleanUpConstructorAction());
+    }
+  };
+
   return (
     <section className={`mt-25 ml-10`}>
       <ul
@@ -68,7 +74,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={bun.name}
+              text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
             />
@@ -88,7 +94,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bun.name}
+              text={`${bun.name} (низ)`}
               price={bun.price}
               thumbnail={bun.image}
             />
@@ -105,10 +111,15 @@ const BurgerConstructor = () => {
           size="medium"
           onClick={() => {
             setIsOpened(true);
-            makeOrder(ingredientIds)
-              .then((data) => dispatch(orderDetailsAction(data)))
-              .catch((err) => console.log(err));
+            dispatch(makeOrder(ingredientIds));
+            cleanUpConstructor();
           }}
+          disabled={
+            (Object.keys(bun).length > 0) |
+            (Object.keys(burgerStuffing).length > 0)
+              ? false
+              : true
+          }
         >
           Оформить заказ
         </Button>

@@ -3,6 +3,7 @@ import {
   ADD_BURGER_BUN,
   DELETE_BURGER_STUFFING,
   REPLACE_BURGER_STUFFING,
+  CLEAN_UP_CONSTRUCTOR,
 } from "../actions/CONSTRUCT_BURGER";
 
 const defaultState = {
@@ -35,6 +36,12 @@ export const constructorIngredientsReducer = (state = defaultState, action) => {
         ...state,
         stuffing: dragStuffing,
       };
+    case CLEAN_UP_CONSTRUCTOR:
+      return {
+        ...state,
+        stuffing: [],
+        bun: {},
+      };
     default:
       return state;
   }
@@ -56,4 +63,8 @@ export const deleteBurgerStuffing = (payload) => ({
 export const replaceBurgerStuffing = (payload) => ({
   type: REPLACE_BURGER_STUFFING,
   payload,
+});
+
+export const cleanUpConstructorAction = () => ({
+  type: CLEAN_UP_CONSTRUCTOR,
 });
