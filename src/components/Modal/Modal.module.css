@@ -3,7 +3,7 @@
     position: fixed;
     z-index: 1;
     justify-content: center;
-    top: 180px;
+    top: calc((100% - 718px) / 2);
     left: calc((100% - 720px) / 2);
     max-width: 720px;
     background-color: #000;

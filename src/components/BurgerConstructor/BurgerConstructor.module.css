@@ -9,7 +9,8 @@
 .customIngredients {
     composes: ingredientList;
     overflow-y: scroll;
-    height: calc(100vh - 514px);
+    min-height: 80px;
+    max-height: calc(100vh - 514px);
 }
 
 .customIngredients::-webkit-scrollbar {
@@ -35,4 +36,9 @@
 .sum {
     display: flex;
     align-items: center;
+}
+
+.isHover {
+  border: 2px solid lightgreen;
+  border-radius: 50px;
 }
