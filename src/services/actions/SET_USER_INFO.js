@@ -1,0 +1,6 @@
+export const FILL_PASSWORD = "FILL_PASSWORD";
+export const FILL_EMAIL = "FILL_EMAIL";
+export const REQEST_RESET_PASSWORD = "REQUEST_RESET_PASSWORD";
+export const FILL_TOKEN = "FILL_TOKEN";
+export const RESET_PASSWORD = "RESET_PASSWORD";
+export const FILL_NAME = "FILL_NAME";

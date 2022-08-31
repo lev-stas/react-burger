@@ -1,64 +1,42 @@
-import pageStyle from "./App.module.css";
+import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import styles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import Modal from "../Modal/Modal";
-import NotificationModal from "../NotificationModal/NotificationModal";
-import { useDispatch, useSelector } from "react-redux";
-import { getData } from "../../services/actions/api";
-import { useEffect } from "react";
 import {
-  closeErrorPopup,
-  closeLoadingPopup,
-} from "../../services/reducers/notificationPopupReducer";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+  MainPage,
+  LoginPage,
+  RegisterPage,
+  ForgotPage,
+  ProfilePage,
+  ResetPage,
+} from "../../pages";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 
 export default function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
-
-  const availableIngredients = useSelector(
-    (state) => state.availableIngredients
-  );
-  const notificationPopupState = useSelector(
-    (state) => state.notificationPopup
-  );
-
   return (
-    <div className={pageStyle.page}>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={pageStyle.main}>
-          {availableIngredients.isLoading && (
-            <Modal
-              isOpened={notificationPopupState.loadingPopup}
-              onClose={() => dispatch(closeLoadingPopup())}
-            >
-              <NotificationModal text="ЗАГРУЗКА..." />
-            </Modal>
-          )}
-          {availableIngredients.hasError && (
-            <Modal
-              isOpened={notificationPopupState.errorPopup}
-              onClose={() => dispatch(closeErrorPopup())}
-            >
-              <NotificationModal text="Ой, что-то пошло не так. Попробуйте позже" />
-            </Modal>
-          )}
-          {!availableIngredients.isLoading &&
-            !availableIngredients.hasError &&
-            availableIngredients.ingredients.length && (
-              <>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </>
-            )}
-        </main>
-      </DndProvider>
+    <div className={styles.page}>
+      <Router>
+        <AppHeader />
+        <Switch>
+          <Route path="/" exact={true}>
+            <MainPage />
+          </Route>
+          <Route path="/login" exact={true}>
+            <LoginPage />
+          </Route>
+          <Route path="/register" exact={true}>
+            <RegisterPage />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPage />
+          </Route>
+          <Route path="/reset-password" exact={true}>
+            <ResetPage />
+          </Route>
+          <Route path="/profile" exact={true}>
+            <ProfilePage />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

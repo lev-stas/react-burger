@@ -6,6 +6,8 @@ import { notificationPopupReducer } from "./notificationPopupReducer";
 import { orderDetailsReducer } from "./orderDetailsReducer";
 import { constructorIngredientsReducer } from "./constructorIngredientsReducer";
 import { selectedIngredientReducer } from "./selectedIngredientReducer";
+import { setUserInfoReducer } from "./setUserInfoReducer";
+import { authUserReducer } from "./authUserRreducer";
 
 const rootReducer = combineReducers({
   availableIngredients: availableIngredientsReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   orderDetails: orderDetailsReducer,
   constructorIngredients: constructorIngredientsReducer,
   selectedIngredients: selectedIngredientReducer,
+  userInfo: setUserInfoReducer,
+  authUser: authUserReducer,
 });
 
 export const store = createStore(
